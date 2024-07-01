@@ -4,20 +4,23 @@ import streamlit as st
 from langchain_core.messages import AIMessage , HumanMessage
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_openai import ChatOpenAI
+from langchain_groq import ChatGroq
 from langchain_core.runnables import RunnablePassthrough
 from langchain_core.output_parsers import StrOutputParser
+from src.sql_generator import SQLGenerator
 
 
 load_dotenv()
 
 def init_database(user:str,password:str,host:str,port:str,database:str): 
-    db_uri = f"mysql+mysqlconnector://{user}:{password}@{host}:{port}/{database}"
+    db_uri = f"mysql+pymysql://{user}:{password}@{host}:{port}/{database}"
     return SQLDatabase.from_uri(db_uri)
 
 def get_sql_chain(db): 
     template = """
     You are a data analyst at a company. You are interacting with a user who is asking you questions about the company's database.
     Based on the table schema below, write a SQL query that would answer the user's question. Take the conversation history into account.
+    Dont provide any explanation , just give simple SQL query.
     
     <SCHEMA>{schema}</SCHEMA>
     
@@ -39,6 +42,7 @@ def get_sql_chain(db):
 
     prompt = ChatPromptTemplate.from_template(template)
     llm = ChatOpenAI()
+    #llm = ChatGroq()
 
     def get_schema(_): 
         return db.get_table_info()
@@ -67,6 +71,7 @@ def get_response(user_query:str , db: SQLDatabase , chat_history:list):
     prompt = ChatPromptTemplate.from_template(template) 
 
     llm = ChatOpenAI()
+    #llm = ChatGroq()
 
     chain = (
         RunnablePassthrough.assign(query=sql_chain).assign(
@@ -134,12 +139,18 @@ if user_query is not None and user_query.strip !="":
         st.markdown(user_query)
 
     with st.chat_message("AI"): 
+        sql_generator = SQLGenerator(db=st.session_state.db)
+
         sql_chain = get_sql_chain(st.session_state.db)
+        #sql_chain = sql_generator.get_sql_chain()
         response = get_response(user_query,st.session_state.db , st.session_state.chat_history)
-        
+        #response = sql_generator.get_response(user_query, st.session_state.chat_history)
+        print(response)
         #response = "I dont know "
-        st.markdown(response)
+        st.markdown("Response of app", response)
 
     st.session_state.chat_history.append(AIMessage(content=response))
 
+
+ 
 
