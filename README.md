@@ -4,11 +4,6 @@ This project is a Text-to-SQL chatbot built using LangChain and Retrieval-Augmen
 
 
 ### Demo : 
-#### Video Link 
-
-## Watch the Video
-
-## Watch the Video
 
 [![Watch the video](https://img.youtube.com/vi/sax2rbURoY4/0.jpg)](https://www.youtube.com/watch?v=sax2rbURoY4)
 
