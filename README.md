@@ -2,19 +2,26 @@
 
 This project is a Text-to-SQL chatbot built using LangChain and Retrieval-Augmented Generation (RAG). The chatbot enables users to input natural language queries, which are then converted into SQL queries to retrieve information from a database.
 
+
+### Demo : 
+#### Video Link 
+
+
+
+
 ### Features
 
-- Natural Language Understanding: Convert user queries in natural language to SQL queries.
-- Retrieval-Augmented Generation (RAG): Enhance the chatbot's capability to generate accurate SQL queries using retrieval-based methods.
-- LangChain Integration: Utilize LangChain for natural language processing and query generation.
-- Database Interaction: Execute the generated SQL queries on a connected database to fetch the required information.
+- The chatbot converts user queries in natural language to SQL queries, enabling seamless interaction without requiring the user to know SQL
+- It enhances the chatbot's capability to generate accurate SQL queries using retrieval-based methods, ensuring the most relevant information is used
+- The chatbot utilizes LangChain for natural language processing and query generation, leveraging the power of OpenAI to improve query accuracy and relevancy.
+- The chatbot connects to any database, executes the generated SQL queries, and fetches the required information. It only interacts with those tables which are relevant, ensuring efficient and targeted data retrieval.
 
 
 ### Installation 
 
 1. Clone the repository :
    
-`git clone https://github.com/Vinayakmane47/mysql-chatbot-openai`
+   `git clone https://github.com/Vinayakmane47/mysql-chatbot-openai`
 
 2. Create virtual environment :
 
@@ -24,7 +31,7 @@ This project is a Text-to-SQL chatbot built using LangChain and Retrieval-Augmen
 
 4. Install required packages :
 
-`pip install -r requirements.txt` 
+   `pip install -r requirements.txt` 
 
 5. Run the main.y file
 
