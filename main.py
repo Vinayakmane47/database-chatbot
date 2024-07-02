@@ -2,25 +2,14 @@ import streamlit as st
 from langchain_community.utilities.sql_database import SQLDatabase
 from src.sql_generator import invoke_chain
 from langchain_core.messages import AIMessage, HumanMessage
+from src.config import * 
+from src.db_connector import init_database
+
+
+
+
 
 st.title("Database Chatbot")
-
-# Function to initialize different database connections
-def init_database(user, password, host, port, database, db_type):
-    if db_type == "MySQL":
-        db_uri = f"mysql+pymysql://{user}:{password}@{host}:{port}/{database}"
-        return SQLDatabase.from_uri(db_uri)
-    elif db_type == "PostgreSQL":
-        db_uri = f"postgresql://{user}:{password}@{host}:{port}/{database}"
-        return SQLDatabase.from_uri(db_uri)  # Assuming you have PostgreSQL setup similar to MySQL
-    elif db_type == "MongoDB":
-        from pymongo import MongoClient
-        client = MongoClient(host, int(port))
-        db = client[database]
-        return db  # Return MongoDB client object
-    else:
-        raise ValueError("Unsupported database type")
-
 # Initialize session state for chat history and database
 if "chat_history" not in st.session_state:
     st.session_state.chat_history = [
@@ -35,10 +24,10 @@ with st.sidebar:
     # Database type switcher
     db_type = st.selectbox("Select Database Type", ["MySQL", "PostgreSQL", "MongoDB"])
 
-    st.text_input("Host", value="localhost", key="Host")
-    st.text_input("Port", value="3306" if db_type == "MySQL" else "5432" if db_type == "PostgreSQL" else "27017", key="Port")
-    st.text_input("User", value="root" if db_type == "MySQL" or db_type == "PostgreSQL" else "admin", key="User")
-    st.text_input("Password", type="password", value="sak$103138" if db_type == "MySQL" else "your_password", key="Password")
+    st.text_input("Host", value=DB_HOST, key="Host")
+    st.text_input("Port", value=DB_PORT if db_type == "MySQL" else "5432" if db_type == "PostgreSQL" else "27017", key="Port")
+    st.text_input("User", value=DB_USER if db_type == "MySQL" or db_type == "PostgreSQL" else "admin", key="User")
+    st.text_input("Password", type="password", value=DB_PASSWORD if db_type == "MySQL" else "your_password", key="Password")
     st.text_input("Database", value="classicmodels" if db_type == "MySQL" or db_type == "PostgreSQL" else "mydatabase", key="Database")
 
     if st.button("Connect"):

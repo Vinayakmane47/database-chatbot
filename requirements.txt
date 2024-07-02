@@ -10,3 +10,4 @@ langchain_groq
 PyMySQL
 python-dotenv
 chromadb
+pymongo
