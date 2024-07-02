@@ -1,4 +1,4 @@
-# Text-to-SQL Chatbot
+# Database Chatbot
 
 This project is a Text-to-SQL chatbot built using LangChain and Retrieval-Augmented Generation (RAG). The chatbot enables users to input natural language queries, which are then converted into SQL queries to retrieve information from a database.
 
